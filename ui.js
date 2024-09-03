@@ -17,6 +17,7 @@ const App = ({
   category: categoryName = null,
 }) => {
   const [totalEmojis, setTotalEmojis] = React.useState(0)
+  const [skippedEmojis, setSkippedEmojis] = React.useState(0)
   const [downloads, setDownloads] = React.useState([])
   const [elapsedTime, setElapsedTime] = React.useState(0)
   const [fetched, setFetched] = React.useState(false)
@@ -43,14 +44,17 @@ const App = ({
 
         const existingEmojis = loadExistingEmojis(outputDir)
 
+        let prevCount = downloadList.length
+
         if (existingEmojis) {
           downloadList = downloadList.filter(
             (emoji) =>
-              !existingEmojis.includes(path.join(emoji.category, emoji.name))
+              !existingEmojis.includes(`${emoji.category}/${emoji.name}`)
           )
         }
 
         setTotalEmojis(downloadList.length)
+        setSkippedEmojis(prevCount - downloadList.length)
         setFetched(true)
 
         let t0 = performance.now()
@@ -181,8 +185,9 @@ const App = ({
 
       <Box marginTop={1}>
         <Text dimColor>
-          Progress: {downloads.length} / {totalEmojis} Errors: {errors.length} |
-          Elapsed Time: {Math.round(elapsedTime.toFixed(2))}s |{' '}
+          Skipped: {skippedEmojis} | Progress: {downloads.length} /{' '}
+          {totalEmojis} Errors: {errors.length} | Elapsed Time:{' '}
+          {Math.round(elapsedTime.toFixed(2))}s |{' '}
           {Math.round(downloads.length / elapsedTime)} emoji/s
         </Text>
       </Box>

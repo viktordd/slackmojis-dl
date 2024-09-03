@@ -1,5 +1,6 @@
 .DS_Store
 node_modules
 emojis
+emojis_*
 emojis.json
 temp/

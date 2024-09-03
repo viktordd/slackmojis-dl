@@ -1,12 +1,12 @@
 const getPage = require('./getPage')
 
 const lastPageProbe = async function () {
-  /* 
-    Slackmojis reached 100 total pages as of Febuary 7, 2022.
+  /*
+    Slackmojis reached 180 total pages as of September 1, 2024.
     Until a last page attribute is implemented, this will have to do.
-    
+
   */
-  let currPage = 100
+  let currPage = 180
   let results = await getPage(currPage)
 
   while (results.length !== 0) {
